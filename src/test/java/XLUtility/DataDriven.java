@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import java.io.*;
-import java.util.Collection;
 
 @RunWith(Parameterized.class)
 public class DataDriven {
@@ -14,17 +13,27 @@ public class DataDriven {
  private final double aTimesB;
 
 @Parameterized.Parameters
- public static Double[] getData() throws IOException{
-       ExcelConfig config=new ExcelConfig();
-       config.setExcelFile("src/test/java/testdata/testdata.xls","Sheet1");
-       Double[] args=new Double[3];
-      for(int i=0;i<= config.getRowCountInSheet();i++)
-       {
-           args= new Double[]{config.getCellData(i, 0), config.getCellData(i, 1), config.getCellData(i, 2)};
-       }
+ public static double[][] getData() throws IOException {
+    ExcelConfig config = new ExcelConfig();
+    config.setExcelFile("src/test/java/testdata/testdata1.xls", "Sheet1");
+    int rowCount= config.getRowCountInSheet();
+    int cellCount= config.getCellCountInSheet();
+    System.out.println("row count "+rowCount);
+    System.out.println("cell count "+cellCount);
+    double[][] args = new double[rowCount][cellCount];
+    System.out.println("cellcount"+config.getCellCountInSheet());
+    for (int i = 0; i <=rowCount; i++) {
+        for(int j=0;j<=cellCount;j++) {
+
+            args[i][j] =config.getCellData(i,j);
+            System.out.print(args[i][j]+",");
+        }
+    //System.out.print(args[i]+",");
+    }
 
     return args;
 }
+
     public DataDriven(double a, double b,double aTimesB)
     {
         super();

@@ -32,14 +32,23 @@ public class ExcelConfig {
     public double getCellData(int rowNumber, int cellNumber){
         //getting the cell value from rowNumber and cell Number
         cell =sheet.getRow(rowNumber).getCell(cellNumber);
-
+    //System.out.println(cell.getNumericCellValue());
         //returning the cell value as string
         return cell.getNumericCellValue();
+
     }
 
     public int getRowCountInSheet(){
-        int rowcount = sheet.getLastRowNum()-sheet.getFirstRowNum();
+        int rowcount = sheet.getLastRowNum();
+        System.out.println("row count in config file "+rowcount);
         return rowcount;
+    }
+    public int getCellCountInSheet(){
+
+        int cellcount = sheet.getRow(1).getLastCellNum();
+        System.out.println("Cellcount  in config"+cellcount);
+        return cellcount;
+
     }
 
     public void setCellValue(int rowNum,int cellNum,String cellValue,String excelFilePath) throws IOException {
