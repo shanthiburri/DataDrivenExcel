@@ -4,47 +4,37 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import java.io.*;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.Date;
 
 @RunWith(Parameterized.class)
 public class DataDriven {
- private final double a;
- private final double b;
- private final double aTimesB;
 
-@Parameterized.Parameters
- public static double[][] getData() throws IOException {
-    ExcelConfig config = new ExcelConfig();
-    config.setExcelFile("src/test/java/testdata/testdata1.xls", "Sheet1");
-    int rowCount= config.getRowCountInSheet();
-    int cellCount= config.getCellCountInSheet();
-    System.out.println("row count "+rowCount);
-    System.out.println("cell count "+cellCount);
-    double[][] args = new double[rowCount][cellCount];
-    System.out.println("cellcount"+config.getCellCountInSheet());
-    for (int i = 0; i <=rowCount; i++) {
-        for(int j=0;j<=cellCount;j++) {
+   double a;
+   double b;
+   double aTimesB;
 
-            args[i][j] =config.getCellData(i,j);
-            System.out.print(args[i][j]+",");
-        }
-    //System.out.print(args[i]+",");
+    @Parameterized.Parameters
+    public static Collection spreadsheetData() throws Exception {
+        InputStream spreadsheet = new FileInputStream("src/test/java/testdata/TestData.xls");
+        return new ExcelConfig(spreadsheet).getData();
     }
 
-    return args;
-}
-
-    public DataDriven(double a, double b,double aTimesB)
-    {
+    public DataDriven(double a,double b,double aTimesB) {
         super();
         this.a=a;
         this.b=b;
         this.aTimesB=aTimesB;
+
     }
+
     @Test
-    public void shouldCalculateATimesB() {
-    System.out.println(a+b+aTimesB);
-        double calculatedValue = a * b;
-        Assert.assertTrue(aTimesB==calculatedValue);
+    public void Test() {
+    double multiply=a*b;
+    Assert.assertTrue(multiply==aTimesB);
     }
 }
